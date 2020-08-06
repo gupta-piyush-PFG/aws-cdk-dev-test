@@ -1,0 +1,50 @@
+#======================================================================================================================
+
+# Name: infra-iam
+
+#======================================================================================================================
+
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: it-support Infra IAM Resource
+
+
+Resources:
+
+  rSamlDeveloperRole:
+
+    Type: AWS::IAM::Role
+
+    Properties:
+
+      RoleName: pfg-saml-developer
+
+      MaxSessionDuration: 43200
+
+      AssumeRolePolicyDocument:
+
+        Version: "2012-10-17"
+
+        Statement:
+
+          - Sid: AllowFederatedAssumeRoleWithSAML
+
+            Effect: Allow
+
+            Principal:
+
+              Federated: arn:aws:iam::266351513232:saml-provider/infra-azure-ad
+            Action: sts:AssumeRoleWithSAML
+
+            Condition:
+
+              StringEquals:
+
+                SAML:aud: https://signin.aws.amazon.com/saml
+
+      ManagedPolicyArns:
+
+        - arn:aws:iam::aws:policy/AdministratorAccess
+
+
+
